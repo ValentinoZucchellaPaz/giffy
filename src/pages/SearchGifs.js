@@ -1,15 +1,20 @@
 import ListOfGifs from "../components/ListOfGifs"
-import Home from "./Home"
+import { useParams } from "react-router-dom"
+import Spinner from "../components/Spinnner"
+import useGifs from "../hooks/useGifs"
 
 const SearchGifs = () => {
 
-    return (
-        <>
-            <Home />
-            <span className="w-screen h-[2px] bg-slate-700"></span>
-            <ListOfGifs />
-        </>
-    )
+    const { keyword } = useParams()
+    const { loading, gifs } = useGifs({ keyword })
+
+    return <div className="grid place-content-center">
+        {
+            loading
+                ? <Spinner />
+                : <ListOfGifs gifs={gifs} keyword={keyword}/>
+        }        
+    </div>
 }
 
 export default SearchGifs
